@@ -75,9 +75,9 @@ jobs:
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
-          docker rmi `docker images -q`
+          # docker rmi `docker images -q`
           sudo rm -rf /usr/share/dotnet /etc/mysql /etc/apt/sources.list.d /usr/local/lib/android 2>/dev/null
-          sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* mysql* mongodb* dotnet* moby* snapd* || true
+          # sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* mysql* mongodb* dotnet* moby* snapd* || true
           sudo -E apt-get -qq update -y
           sudo -E apt-get -qq full-upgrade -y
           # sudo -E apt-get -qq install -y $(curl -fsSL https://is.gd/depend_ubuntu2204_openwrt)
@@ -120,7 +120,7 @@ jobs:
 
       - name: Upload OpenWrt Firmware to Release
         uses: ncipollo/release-action@main
-        if: ${{ env.PACKAGED_STATUS }} == 'success' && !cancelled()
+        if: (!cancelled())
         with:
           tag: OpenWrt_aarch64_${{ env.PACKAGED_OUTPUTDATE }}
           artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/*
